@@ -1,0 +1,14 @@
+---
+- name: set project-name if unset
+  when: docker_compose_updater__project_name is not defined
+  task:
+    - set_fact:
+        docker_compose_updater__project_name: '{{ docker_compose_updater__target_path | basename }}'
+
+- name: Install cron update timer service
+  when: docker_compose_updater__state != "absent"
+  include_tasks: install.yml
+
+- name: Uninstall cron update timer service
+  when: docker_compose_updater__state == "absent"
+  include_tasks: uninstall.yml

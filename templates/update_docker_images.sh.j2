@@ -1,0 +1,5 @@
+#!/bin/env bash
+cd "{{ docker_compose_updater__target_path }}"
+
+docker-compose pull
+docker-compose up -d

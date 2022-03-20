@@ -1,0 +1,5 @@
+---
+# present, absent, stopped
+docker_compose_updater__state: 'present'
+docker_compose_updater__scripts_home: '/opt/docker_compose_updater'
+docker_compose_updater__custom_script: ''

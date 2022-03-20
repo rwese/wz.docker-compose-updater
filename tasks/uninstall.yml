@@ -1,0 +1,35 @@
+---
+- name: reload systemd daemons
+  become: yes
+  ansible.builtin.systemd:
+    daemon_reload: yes
+
+- name: Get Service Status
+  become: yes
+  ansible.builtin.systemd:
+    name: "ansible-docker-update-{{ docker_compose_updater__project_name }}.service"
+  register: service_state
+
+- name: stop timer for ansible-docker-update-{{ docker_compose_updater__project_name }}
+  become: yes
+  ansible.builtin.systemd:
+    name: "ansible-docker-update-{{ docker_compose_updater__project_name }}.service"
+    state: stopped
+    enabled: no
+  notify: reload systemd daemons
+  when: service_state.status and service_state.status.ActiveState == "active"
+
+- name: Remove files
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ docker_compose_updater__scripts_home }}/update_docker_images_{{ docker_compose_updater__project_name }}.sh"
+    - "/etc/systemd/system/ansible-docker-update-{{ docker_compose_updater__project_name }}.service"
+    - "/etc/systemd/system/ansible-docker-update-{{ docker_compose_updater__project_name }}.timer"
+
+- name: reload systemd daemons
+  become: yes
+  ansible.builtin.systemd:
+    daemon_reload: yes

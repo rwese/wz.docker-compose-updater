@@ -1,0 +1,9 @@
+[Unit]
+Description=Update docker-compose images daily
+
+[Service]
+{% if docker_compose_updater__custom_script != "" %}
+ExecStart={{ docker_compose_updater__custom_script }}
+{% else %}
+ExecStart={{ docker_compose_updater__scripts_home }}/update_docker_images_{{ docker_compose_updater__project_name }}.sh
+{% endif %}

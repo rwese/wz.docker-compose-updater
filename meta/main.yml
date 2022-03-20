@@ -1,0 +1,26 @@
+galaxy_info:
+  author: Rene Weselowski
+  description: Setup systemd service to periodically pull new image versions for docker-compose
+
+  license: MIT
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: GenericLinux
+      versions:
+        - all
+
+  min_ansible_version: '2.1'
+
+  galaxy_tags:
+    - security
+    - docker
+    - docker-compose
+    - systemd
+
+dependencies: []

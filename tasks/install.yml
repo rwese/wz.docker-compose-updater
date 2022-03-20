@@ -1,0 +1,38 @@
+---
+- name: Create target path
+  become: yes
+  file:
+    dest: '{{ docker_compose_updater__scripts_home }}/'
+    state: directory
+    recurse: yes
+    mode: 0770
+  changed_when: false
+
+- name: Copy updater script
+  become: yes
+  template:
+    src: update_docker_images.sh.j2
+    dest: '{{ docker_compose_updater__scripts_home }}/update_docker_images_{{ docker_compose_updater__project_name }}.sh'
+    mode: '0740'
+  changed_when: false
+
+- name: Copy updater service
+  become: yes
+  template:
+    src: 'ansible-docker-update.service.j2'
+    dest: '/etc/systemd/system/ansible-docker-update-{{ docker_compose_updater__project_name }}.service'
+    mode: '0660'
+  changed_when: false
+
+- name: Copy updater timer
+  become: yes
+  template:
+    src: 'ansible-docker-update.timer.j2'
+    dest: '/etc/systemd/system/ansible-docker-update-{{ docker_compose_updater__project_name }}.timer'
+    mode: '0660'
+
+- name: Enable a timer unit for ansible-docker-update-{{ docker_compose_updater__project_name }}
+  become: yes
+  ansible.builtin.systemd:
+    name: 'ansible-docker-update-{{ docker_compose_updater__project_name }}.service'
+    enabled: "{{ 'yes' if docker_compose_updater__state == 'present' else 'no' }}"
