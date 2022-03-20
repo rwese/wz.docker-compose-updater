@@ -13,6 +13,8 @@ Nothing
 Role Variables
 --------------
 
+| Variable Name | Type | Purpose | Default | Required |
+|---|---|---|---|---|
 | `docker_compose_updater__project_name` | String | the projectname, if set, usually fallsback to directory | `'docker-compose-super-project'` | Yes |
 | `docker_compose_updater__target_path` | String | location of the docker-compose project | `/opt/docker-compose-project` | Yes |
 | `docker_compose_updater__state` | String | State of the updater | `present|absent` | No |
