@@ -40,14 +40,13 @@ This role is more meant to be added to an role but can be also used to install a
 Example Role Task
 -----------------
 
-  - name: trigger docker-compose-updater role
-    include_role:
-      name: wz.docker-compose-updater
-    vars:
-      docker_compose_updater__project_name: "{{ docker_compose_project__project_name }}"
-      docker_compose_updater__target_path: "{{ docker_compose_project__target_path }}"
-      docker_compose_updater__state: "{{ docker_compose_project__state|default('present') }}"
-
+    - name: trigger docker-compose-updater role
+      include_role:
+        name: wz.docker-compose-updater
+      vars:
+        docker_compose_updater__project_name: "{{ docker_compose_project__project_name }}"
+        docker_compose_updater__target_path: "{{ docker_compose_project__target_path }}"
+        docker_compose_updater__state: "{{ docker_compose_project__state|default('present') }}"
 
 License
 -------
