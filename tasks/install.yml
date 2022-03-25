@@ -36,3 +36,10 @@
   ansible.builtin.systemd:
     name: 'ansible-docker-update-{{ docker_compose_updater__project_name }}.service'
     enabled: "{{ 'yes' if docker_compose_updater__state == 'present' else 'no' }}"
+
+- name: Enable a service unit for ansible-docker-update-{{ docker_compose_updater__project_name }}
+  become: yes
+  ansible.builtin.systemd:
+    name: 'ansible-docker-update-{{ docker_compose_updater__project_name }}.timer'
+    enabled: "{{ 'yes' if docker_compose_updater__state == 'present' else 'no' }}"
+    state: "{{ 'started' if docker_compose_updater__state == 'present' else 'stopped' }}"
